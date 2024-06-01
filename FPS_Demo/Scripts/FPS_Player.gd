@@ -1,4 +1,8 @@
 extends General_Physics_Body
+class_name Player
+
+enum STATES {GROUND, COMBAT, PUSHDRAG, HOLD}
+@onready var state :=STATES.GROUND
 @export var speed := 5.0
 @export var jumpForce := 4.5
 
@@ -9,14 +13,25 @@ extends General_Physics_Body
 @onready var direction := Vector3.ZERO
 
 @onready var jumpVector := Vector3.ZERO
-
+@export var interText : String
+@onready var interLabel := $Sprite3D/SubViewport/Label
+func _ready():
+	interLabel.text = interText
 func _physics_process(delta):
-	Custom_Gravity(delta)
-	LookAt()
-	Move(delta)
-	Jump(delta)
-	velocity = direction + gravity + jumpVector
-	move_and_slide()
+	match state:
+		STATES.GROUND:
+			Custom_Gravity(delta)
+			LookAt()
+			Move(delta)
+			Jump(delta)
+			velocity = direction + gravity + jumpVector
+			move_and_slide()
+		STATES.COMBAT:
+			pass
+		STATES.PUSHDRAG:
+			pass
+		STATES.HOLD:
+			pass
 func LookAt():
 	if Input.is_action_pressed("aim"):
 		rotation.y = cam.rotation.y
