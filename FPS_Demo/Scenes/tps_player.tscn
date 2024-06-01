@@ -1,33 +1,72 @@
-[gd_scene load_steps=7 format=3 uid="uid://bqh0gq7v7n7ov"]
+[gd_scene load_steps=10 format=3 uid="uid://bqh0gq7v7n7ov"]
 
 [ext_resource type="Script" path="res://Scripts/FPS_Player.gd" id="1_l3746"]
 [ext_resource type="Script" path="res://Scripts/PickUpAbility.gd" id="2_ftilx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0vot7"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tjs5v"]
+
 [sub_resource type="PrismMesh" id="PrismMesh_umadh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wsecn"]
 albedo_color = Color(0, 0, 1, 1)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_tjs5v"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_gvxqo"]
+size = Vector3(0.7, 1, 0.6)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ar734"]
+viewport_path = NodePath("Sprite3D/SubViewport")
+
+[sub_resource type="LabelSettings" id="LabelSettings_ukoph"]
 
 [node name="TPS_Player" type="CharacterBody3D"]
+collision_mask = 30
 script = ExtResource("1_l3746")
 speed = 500.0
 jumpForce = 1200.0
 camRef = NodePath("../CameraSystem")
 
+[node name="Abilities" type="Node" parent="."]
+script = ExtResource("2_ftilx")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_0vot7")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.5, 0)
-mesh = SubResource("PrismMesh_umadh")
-surface_material_override/0 = SubResource("StandardMaterial3D_wsecn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_tjs5v")
 
-[node name="PickUpAbility" type="Node" parent="."]
-script = ExtResource("2_ftilx")
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, -1.31134e-08, 0.3, 0, -0.3, -1.31134e-08, 0, 1.1, 0)
+mesh = SubResource("PrismMesh_umadh")
+surface_material_override/0 = SubResource("StandardMaterial3D_wsecn")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 30
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.3)
+shape = SubResource("BoxShape3D_gvxqo")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+texture = SubResource("ViewportTexture_ar734")
+
+[node name="SubViewport" type="SubViewport" parent="Sprite3D"]
+transparent_bg = true
+size = Vector2i(100, 100)
+
+[node name="Label" type="Label" parent="Sprite3D/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Interact"
+label_settings = SubResource("LabelSettings_ukoph")
+horizontal_alignment = 3
+vertical_alignment = 3
+uppercase = true
+
+[connection signal="body_entered" from="Area3D" to="Abilities" method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="Abilities" method="_on_area_3d_body_exited"]
