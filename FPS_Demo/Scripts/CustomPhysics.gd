@@ -1,7 +1,7 @@
 extends CharacterBody3D
 class_name General_Physics_Body
 
-var col : KinematicCollision3D
+@onready var col = KinematicCollision3D
 var PUSHING := Vector3.ZERO
 var PUSHED := Vector3.ZERO
 var PULL := Vector3.ZERO
@@ -18,17 +18,23 @@ func Custom_Gravity(DELTA:=60.0, BASE_WEIGHT := 100.0):
 			gravity = -get_floor_normal() * DELTA
 func GetCollisions():
 	for i in get_slide_collision_count():
-		col = get_slide_collision(i)
-		col.get_collider()
+		if get_slide_collision(i).get_collider() is RigidBody3D:
+			col = get_slide_collision(i)
+			PushRigids()
 func PushRigids():
-	if col != null:
-		if col.get_collider() is RigidBody3D:
-			col.get_collider().apply_central_impulse(-col.get_normal()*col.get_collider().mass)
+	if col.get_collider() is RigidBody3D:
+		col.get_collider().apply_central_force(-col.get_normal()*1000)
 func PushKinematics(DELTA:float):
-	if col != null:
-		if col.get_collider() is CharacterBody3D:
-			col.PUSHED += velocity
+	for i in get_slide_collision_count():
+		if get_slide_collision(i).get_collider() is CharacterBody3D:
+			col = get_slide_collision(i)
+			print(col.get_normal())
+			col.get_collider().velocity.x += -col.get_normal().x * 1000.0 * DELTA
+			col.get_collider().velocity.z += -col.get_normal().z * 1000.0 * DELTA
 func BePushed(DELTA:float):
-	if col != null:
-		if col.get_collider() is CharacterBody3D:
-			PUSHED += -col.get_normal() * 1000.0 * DELTA
+	for i in get_slide_collision_count():
+		if get_slide_collision(i).get_collider() is CharacterBody3D:
+			print(col.get_normal())
+			col = get_slide_collision(i)
+			PUSHED.x += -col.get_normal().x * 1000.0 * DELTA
+			PUSHED.z += -col.get_normal().z * 1000.0 * DELTA

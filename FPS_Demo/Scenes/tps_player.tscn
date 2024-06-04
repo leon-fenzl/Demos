@@ -29,7 +29,7 @@ jumpForce = 2000.0
 camRef = NodePath("../CameraSystem")
 interText = "Interact"
 
-[node name="Abilities" type="Node" parent="."]
+[node name="PlayerAbilities" type="Node" parent="."]
 script = ExtResource("2_ftilx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -43,10 +43,10 @@ transform = Transform3D(0.3, 0, 0, 0, -1.31134e-08, 0.3, 0, -0.3, -1.31134e-08, 
 mesh = SubResource("PrismMesh_umadh")
 surface_material_override/0 = SubResource("StandardMaterial3D_wsecn")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Sight" type="Area3D" parent="."]
 collision_mask = 30
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sight"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.3)
 shape = SubResource("BoxShape3D_gvxqo")
 
@@ -70,3 +70,6 @@ label_settings = SubResource("LabelSettings_uwd7n")
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
+
+[connection signal="body_entered" from="Sight" to="PlayerAbilities" method="_on_sight_body_entered"]
+[connection signal="body_exited" from="Sight" to="PlayerAbilities" method="_on_sight_body_exited"]
