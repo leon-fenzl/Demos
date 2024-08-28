@@ -12,8 +12,6 @@ axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 script = ExtResource("1_d2ys6")
-speed = 500.0
-jumpForce = 20000.0
 camRef = NodePath("../CameraSystem")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -23,7 +21,7 @@ mesh = SubResource("CapsuleMesh_x8cn0")
 shape = SubResource("CapsuleShape3D_6nr8x")
 
 [node name="GroundCheck" type="RayCast3D" parent="."]
-target_position = Vector3(0, -1.2, 0)
+target_position = Vector3(0, -1.1, 0)
 collision_mask = 254
 
 [node name="WallCheck" type="RayCast3D" parent="."]

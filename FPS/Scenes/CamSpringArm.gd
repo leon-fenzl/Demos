@@ -1,14 +1,13 @@
 extends SpringArm3D
 class_name CamSystem
 
-@onready var cam := $Camera3D
 @export var displace_Height : float
 @export var mouse_Speed : float
 @export var ctrl_Speed : float
 
 @export var pitch := Vector2(-80.0,80.0)
 @export var yaw := Vector2(0.0,360.0)
-@export var armLength := Vector2(0.0,0.0)
+
 @export var playerRef : NodePath
 @onready var player := get_node(playerRef)
 
@@ -20,22 +19,22 @@ func _input(event: InputEvent) -> void:
 		rotation.x = clamp(rotation.x,deg_to_rad(pitch.x),deg_to_rad(pitch.y))
 		rotation.y -= event.relative.x*mouse_Speed*get_physics_process_delta_time()
 		rotation.y = wrapf(rotation.y,deg_to_rad(yaw.x),deg_to_rad(yaw.y))
-#Zoom-in Zoom-out do spring de acordo com o pitch da Câmera
-		#if event.relative.y > 0.5 || event.relative.y < -0.5:
-			#new_value += 0.5 * event.relative.y * get_physics_process_delta_time()
-		#new_value = clamp(new_value,armLength.x,armLength.y)
-		#$".".set_length(new_value)
 func _physics_process(delta: float) -> void:
 	position = lerp(position, +Vector3(player.position.x,player.position.y+displace_Height,player.position.z),10*delta)
 	Controller_Inputs()
 	Ctrlr_Pitch_Yaw(delta)
+	Zoom()
 func Controller_Inputs()-> void:
-	camInputs = Input.get_vector("r_joy_left","r_joy_right","r_joy_up","r_joy_down").normalized()
-	#if camInputs.y > 0.5 || camInputs.y < -0.5:
-		#new_value += 1 * camInputs.y * get_physics_process_delta_time()
-	#new_value = clamp(new_value,armLength.x,armLength.y)
+	camInputs = Input.get_vector("camLeft","camRight","camUp","camDown").normalized()
 func Ctrlr_Pitch_Yaw(DELTA:float)-> void:
 	rotation.x -= camInputs.y*ctrl_Speed*DELTA
 	rotation.x = clamp(rotation.x,deg_to_rad(pitch.x),deg_to_rad(pitch.y))
 	rotation.y -= camInputs.x*ctrl_Speed*DELTA
 	rotation.y = wrapf(rotation.y,deg_to_rad(yaw.x),deg_to_rad(yaw.y))
+func Zoom():
+	if Input.is_action_just_pressed("zoom_out"):
+		new_value += 1
+	if Input.is_action_just_pressed("zoom_in"):
+		new_value -= 1
+	new_value = clamp(new_value,2,15)
+	$".".set_length(new_value)

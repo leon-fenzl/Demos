@@ -1,0 +1,171 @@
+[gd_scene load_steps=12 format=3 uid="uid://iyj3snntnrne"]
+
+[ext_resource type="Script" path="res://Scenes/Player.gd" id="1_wuabc"]
+[ext_resource type="Script" path="res://Scenes/CamSpringArm.gd" id="2_y84hb"]
+[ext_resource type="Script" path="res://Scenes/GameMenuCtrl.gd" id="3_r7qjt"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7si41"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3gtgd"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rh5ji"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_enutk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0xr77"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ya7ut"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_47ek0"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="BoxMesh" id="BoxMesh_63fyl"]
+size = Vector3(50, 1, 50)
+
+[node name="Game" type="Node"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GameMenus" type="Control" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+script = ExtResource("3_r7qjt")
+
+[node name="Bg_Menu" type="ColorRect" parent="CanvasLayer/GameMenus"]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -164.0
+offset_bottom = -2.0
+color = Color(0.47451, 0.47451, 0.47451, 1)
+
+[node name="Resume" type="Button" parent="CanvasLayer/GameMenus"]
+layout_mode = 0
+offset_left = 631.0
+offset_top = 301.0
+offset_right = 703.0
+offset_bottom = 332.0
+text = "RESUME"
+flat = true
+
+[node name="Retry" type="Button" parent="CanvasLayer/GameMenus"]
+layout_mode = 0
+offset_left = 639.0
+offset_top = 352.0
+offset_right = 695.0
+offset_bottom = 383.0
+text = "RETRY"
+flat = true
+
+[node name="Options" type="Button" parent="CanvasLayer/GameMenus"]
+layout_mode = 0
+offset_left = 624.0
+offset_top = 410.0
+offset_right = 703.0
+offset_bottom = 441.0
+text = "OPTIONS"
+flat = true
+
+[node name="Quit" type="Button" parent="CanvasLayer/GameMenus"]
+layout_mode = 0
+offset_left = 642.0
+offset_top = 461.0
+offset_right = 689.0
+offset_bottom = 492.0
+text = "QUIT"
+flat = true
+
+[node name="MenuOptions" type="Control" parent="CanvasLayer/GameMenus"]
+process_mode = 3
+visible = false
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="Bg_Menu" type="ColorRect" parent="CanvasLayer/GameMenus/MenuOptions"]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -164.0
+offset_bottom = -2.0
+
+[node name="Player" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.59132, 0)
+collision_mask = 30
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+script = ExtResource("1_wuabc")
+speed = 500.0
+jumpForce = 10000.0
+camRef = NodePath("../CamSpringArm")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_7si41")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("CapsuleMesh_3gtgd")
+
+[node name="GroundCheck" type="RayCast3D" parent="Player"]
+
+[node name="WallCheck" type="RayCast3D" parent="Player"]
+
+[node name="CamSpringArm" type="SpringArm3D" parent="."]
+script = ExtResource("2_y84hb")
+displace_Height = 1.0
+mouse_Speed = 0.25
+playerRef = NodePath("../Player")
+
+[node name="Camera3D" type="Camera3D" parent="CamSpringArm"]
+
+[node name="Sphere" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.59132, 0)
+collision_mask = 31
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sphere"]
+shape = SubResource("SphereShape3D_rh5ji")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Sphere"]
+mesh = SubResource("SphereMesh_enutk")
+
+[node name="Cube" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.59132, 0)
+collision_mask = 31
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube"]
+shape = SubResource("BoxShape3D_0xr77")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cube"]
+mesh = SubResource("BoxMesh_ya7ut")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 16
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_47ek0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_63fyl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 7, 0)
+
+[connection signal="button_down" from="CanvasLayer/GameMenus/Resume" to="CanvasLayer/GameMenus" method="_on_resume_button_down"]
+[connection signal="button_down" from="CanvasLayer/GameMenus/Retry" to="CanvasLayer/GameMenus" method="_on_retry_button_down"]
+[connection signal="button_down" from="CanvasLayer/GameMenus/Options" to="CanvasLayer/GameMenus" method="_on_options_button_down"]
+[connection signal="button_down" from="CanvasLayer/GameMenus/Quit" to="CanvasLayer/GameMenus" method="_on_quit_button_down"]

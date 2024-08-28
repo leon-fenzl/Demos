@@ -1,6 +1,6 @@
 extends Control
 
-@onready var menuOptions := $Menu_Options
+@onready var menuOptions := $MenuOptions
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
