@@ -1,12 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://3nt0bu8ihidt"]
+[gd_scene load_steps=6 format=3 uid="uid://3nt0bu8ihidt"]
 
 [ext_resource type="Script" path="res://Scripts/BaseMob.gd" id="1_ewpgm"]
 [ext_resource type="Material" uid="uid://dsucxku67jw68" path="res://Materials/Mat_Enemy.tres" id="2_83tln"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0vot7"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_alp1k"]
-radius = 1.1
 
 [sub_resource type="PrismMesh" id="PrismMesh_uxuhf"]
 
@@ -28,19 +25,8 @@ keep_y_velocity = false
 debug_enabled = true
 debug_use_custom = true
 
-[node name="LocationTimer" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_0vot7")
-
-[node name="Sight" type="Area3D" parent="."]
-collision_layer = 4
-collision_mask = 6
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Sight"]
-shape = SubResource("SphereShape3D_alp1k")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -1)
@@ -49,6 +35,3 @@ surface_material_override/0 = ExtResource("2_83tln")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_tjs5v")
-
-[connection signal="timeout" from="LocationTimer" to="." method="_on_location_timer_timeout"]
-[connection signal="body_entered" from="Sight" to="." method="_on_sight_body_entered"]

@@ -1,12 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://cf7q8pdri77u8"]
+[gd_scene load_steps=17 format=3 uid="uid://cf7q8pdri77u8"]
 
 [ext_resource type="PackedScene" uid="uid://wp3feiucmjg2" path="res://Scenes/CameraSystem.tscn" id="1_iqlcs"]
 [ext_resource type="Script" path="res://Scripts/GameMenus.gd" id="1_yw8my"]
 [ext_resource type="Script" path="res://Scripts/Btt_Back.gd" id="3_753ag"]
 [ext_resource type="PackedScene" uid="uid://bqh0gq7v7n7ov" path="res://Scenes/tps_player.tscn" id="4_emgy0"]
-[ext_resource type="PackedScene" uid="uid://dtp36sumfltly" path="res://Scenes/flying_mob.tscn" id="5_xrdg7"]
-[ext_resource type="PackedScene" uid="uid://cmfer0mp5ntb" path="res://Scenes/ground_mob.tscn" id="6_0atsi"]
 [ext_resource type="Script" path="res://Scripts/NavBakeRecall.gd" id="6_n2tgn"]
+[ext_resource type="Script" path="res://Scripts/Flying_Mob.gd" id="7_vx42t"]
+[ext_resource type="Material" uid="uid://dsucxku67jw68" path="res://Materials/Mat_Enemy.tres" id="8_6it1y"]
+[ext_resource type="Script" path="res://Scripts/Ground_Mob.gd" id="9_ruckx"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_p2oj2"]
 vertices = PackedVector3Array(-1, 0.5, -19.75, 0.25, 0.5, -20, 0.25, 0.5, -24.5, -24.5, 0.5, -24.5, -1, 0.5, -18, -24.5, 0.5, -24.5, -24.5, 0.5, 24.5, 0.25, 0.5, 24.5, -1, 0.5, -18, -1, 0.5, -19.75, -24.5, 0.5, -24.5, 0.25, 0.5, 24.5, 0.25, 0.5, -17.75, -1, 0.5, -18, 0.25, 0.5, -24.5, 0.25, 0.5, -20, 1.25, 0.5, -19.75, 24.5, 0.5, -24.5, 1.25, 0.5, -18, 0.25, 0.5, 24.5, 24.5, 0.5, 24.5, 24.5, 0.5, -24.5, 24.5, 0.5, -24.5, 1.25, 0.5, -19.75, 1.25, 0.5, -18, 1.25, 0.5, -18, 0.25, 0.5, -17.75, 0.25, 0.5, 24.5)
@@ -23,6 +24,12 @@ size = Vector3(50, 1, 50)
 [sub_resource type="BoxMesh" id="BoxMesh_188c2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o3cx5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0vot7"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_uxuhf"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tjs5v"]
 
 [node name="game" type="Node"]
 
@@ -177,9 +184,10 @@ shadow_enabled = true
 
 [node name="CameraSystem" parent="." instance=ExtResource("1_iqlcs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.9, 8.4)
+spring_length = 10.0
 displace_Height = 1.0
 mouse_Speed = 0.05
-pitch = Vector2(-60, 60)
+pitch = Vector2(-45, 90)
 armLength = Vector2(2, 15)
 playerRef = NodePath("../TPS_Player")
 
@@ -187,27 +195,6 @@ playerRef = NodePath("../TPS_Player")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 0)
 collision_layer = 2
 collision_mask = 29
-
-[node name="Flying_Mob" parent="." instance=ExtResource("5_xrdg7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0999999, 2, -8.1)
-lifePercentage = 0.0
-bullet_speed = 10.0
-
-[node name="Ground_Mob" parent="." instance=ExtResource("6_0atsi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0173, 1.971, 0)
-bullet_speed = 10.0
-
-[node name="Ground_Mob2" parent="." instance=ExtResource("6_0atsi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.4173, 1.971, -11.1)
-bullet_speed = 10.0
-
-[node name="Ground_Mob3" parent="." instance=ExtResource("6_0atsi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.3173, 1.971, 0)
-bullet_speed = 10.0
-
-[node name="Ground_Mob4" parent="." instance=ExtResource("6_0atsi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.7173, 1.971, 10.6)
-bullet_speed = 10.0
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_p2oj2")
@@ -240,9 +227,60 @@ shape = SubResource("BoxShape3D_o3cx5")
 [node name="Timer" type="Timer" parent="NavigationRegion3D"]
 script = ExtResource("6_n2tgn")
 
+[node name="Flying_Mob" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 12.1, 0)
+script = ExtResource("7_vx42t")
+playerRef = NodePath("../TPS_Player")
+metadata/_edit_group_ = true
+
+[node name="LocationTimer" type="Timer" parent="Flying_Mob"]
+autostart = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Flying_Mob"]
+shape = SubResource("CapsuleShape3D_0vot7")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Flying_Mob"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -1)
+mesh = SubResource("PrismMesh_uxuhf")
+surface_material_override/0 = ExtResource("8_6it1y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Flying_Mob"]
+mesh = SubResource("CapsuleMesh_tjs5v")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Flying_Mob"]
+
+[node name="RayCast3D" type="RayCast3D" parent="Flying_Mob"]
+target_position = Vector3(0, -100, 0)
+
+[node name="Ground_Mob" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4, 0.987708, 0)
+script = ExtResource("9_ruckx")
+playerRef = NodePath("../TPS_Player")
+SPEED = 100.0
+bullet_damage = 10.0
+metadata/_edit_group_ = true
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Ground_Mob"]
+
+[node name="LocationTimer" type="Timer" parent="Ground_Mob"]
+autostart = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground_Mob"]
+shape = SubResource("CapsuleShape3D_0vot7")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Ground_Mob"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -1)
+mesh = SubResource("PrismMesh_uxuhf")
+surface_material_override/0 = ExtResource("8_6it1y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground_Mob"]
+mesh = SubResource("CapsuleMesh_tjs5v")
+
 [connection signal="button_down" from="CanvasLayer/GameMenus/Resume" to="CanvasLayer/GameMenus" method="_on_resume_button_down"]
 [connection signal="button_down" from="CanvasLayer/GameMenus/Retry" to="CanvasLayer/GameMenus" method="_on_retry_button_down"]
 [connection signal="button_down" from="CanvasLayer/GameMenus/Options" to="CanvasLayer/GameMenus" method="_on_options_button_down"]
 [connection signal="button_down" from="CanvasLayer/GameMenus/Quit" to="CanvasLayer/GameMenus" method="_on_quit_button_down"]
 [connection signal="button_down" from="CanvasLayer/GameMenus/Menu_Options/Btt_Back" to="CanvasLayer/GameMenus/Menu_Options/Btt_Back" method="_on_button_down"]
 [connection signal="timeout" from="NavigationRegion3D/Timer" to="NavigationRegion3D/Timer" method="_on_timeout"]
+[connection signal="timeout" from="Flying_Mob/LocationTimer" to="Flying_Mob" method="_on_location_timer_timeout"]
+[connection signal="timeout" from="Ground_Mob/LocationTimer" to="Ground_Mob" method="_on_location_timer_timeout"]

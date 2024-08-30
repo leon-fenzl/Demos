@@ -3,7 +3,13 @@
 [ext_resource type="Script" path="res://Scripts/CameraSystem.gd" id="1_i1rne"]
 
 [node name="CameraSystem" type="SpringArm3D"]
+spring_length = 5.0
 script = ExtResource("1_i1rne")
 
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, -25)
+collision_mask = 4
+
 [node name="Camera3D" type="Camera3D" parent="."]
+h_offset = 2.0
 current = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqh0gq7v7n7ov"]
+[gd_scene load_steps=10 format=3 uid="uid://bqh0gq7v7n7ov"]
 
 [ext_resource type="Script" path="res://Scripts/FPS_Player.gd" id="1_l3746"]
 [ext_resource type="Script" path="res://Scripts/PickUpAbility.gd" id="2_ftilx"]
@@ -14,9 +14,6 @@ albedo_color = Color(0, 0, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gvxqo"]
 size = Vector3(0.7, 1, 0.6)
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_lmsrl"]
-radius = 2.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ar734"]
 viewport_path = NodePath("Sprite3D/SubViewport")
@@ -37,6 +34,10 @@ script = ExtResource("2_ftilx")
 
 [node name="Marker3D" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, 0)
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, -5)
+collision_mask = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.45058e-08, 0, 0)
@@ -59,15 +60,6 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sight"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.3)
 shape = SubResource("BoxShape3D_gvxqo")
-
-[node name="Sucktion" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.45058e-08, 1, -1.5)
-collision_layer = 2
-collision_mask = 4
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Sucktion"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-shape = SubResource("SphereShape3D_lmsrl")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
@@ -92,5 +84,3 @@ uppercase = true
 
 [connection signal="body_entered" from="Sight" to="PlayerAbilities" method="_on_sight_body_entered"]
 [connection signal="body_exited" from="Sight" to="PlayerAbilities" method="_on_sight_body_exited"]
-[connection signal="body_entered" from="Sucktion" to="." method="_on_sucktion_body_entered"]
-[connection signal="body_exited" from="Sucktion" to="." method="_on_sucktion_body_exited"]
