@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://3nt0bu8ihidt"]
 
 [ext_resource type="Script" path="res://Scripts/BaseMob.gd" id="1_ewpgm"]
-[ext_resource type="Material" uid="uid://dsucxku67jw68" path="res://Materials/Mat_Enemy.tres" id="2_83tln"]
+[ext_resource type="Material" uid="uid://dsucxku67jw68" path="res://Materials/Mat_Mob_Ground.tres" id="2_83tln"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0vot7"]
 
@@ -13,8 +13,8 @@
 collision_layer = 4
 collision_mask = 15
 script = ExtResource("1_ewpgm")
-SPEED = 100.0
 baseType = 1
+SPEED = 100.0
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 path_max_distance = 10.01

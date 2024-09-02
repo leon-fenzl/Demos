@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://dtp36sumfltly"]
+
+[ext_resource type="Script" path="res://Scripts/Flying_Mob.gd" id="1_64gyc"]
+[ext_resource type="Material" uid="uid://dsucxku67jw68" path="res://Materials/Mat_Mob_Ground.tres" id="2_0nxa1"]
+[ext_resource type="Material" uid="uid://bsvphoddlcn6r" path="res://Materials/Mat_Mob_Fly.tres" id="3_fpygp"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7b0k4"]
+radius = 2.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0vot7"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_uxuhf"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tjs5v"]
+
+[node name="Flying_Mob" type="CharacterBody3D" groups=["mobs"]]
+collision_layer = 4
+collision_mask = 31
+script = ExtResource("1_64gyc")
+playerRef = NodePath("../TPS_Player")
+life = 10.0
+mob_damage = 10.0
+lifePercentage = 1.0
+SPEED = 25.0
+metadata/_edit_group_ = true
+
+[node name="LocationTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="Area_Sight" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 6
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area_Sight"]
+shape = SubResource("SphereShape3D_7b0k4")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, -100, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_0vot7")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -1)
+mesh = SubResource("PrismMesh_uxuhf")
+surface_material_override/0 = ExtResource("2_0nxa1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_tjs5v")
+surface_material_override/0 = ExtResource("3_fpygp")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[connection signal="timeout" from="LocationTimer" to="." method="_on_location_timer_timeout"]
+[connection signal="body_entered" from="Area_Sight" to="." method="_on_area_sight_body_entered"]
