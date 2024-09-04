@@ -1,15 +1,15 @@
-extends BaseMob
-class_name GroundMob
+extends Mob_Base
+class_name Mob_Runner
 @onready var new_direction := Vector3.ZERO
 @onready var agent := $NavigationAgent3D
-@onready var rayS := $Ray_Sight
+@onready var sight := $Area_Sight
+
 func _ready():
 	moveState = MOVE_TYPES.MOVE
 	Update_target_location(player.global_position)
-func _on_location_timer_timeout():
+func _on_loc_timer_timeout():
 	CalcualteDirection(get_physics_process_delta_time())
 func _physics_process(delta):
-	AttackOnSight(rayS,bullet_damage)
 	match moveState:
 		MOVE_TYPES.MOVE:
 			GravitySystem(delta)
@@ -18,9 +18,11 @@ func _physics_process(delta):
 			velocity = new_direction
 			velocity += gravityVector
 			move_and_slide()
+			Mob_Attack()
 		MOVE_TYPES.SUCKED:
-			OnSucktion(delta)
+			On_Sucktion(delta)
 		MOVE_TYPES.BULLET:
+			Bullet_Attack()
 			BeLaunched(delta)
 			move_and_slide()
 func GravitySystem(DELTA:float):	
@@ -32,3 +34,10 @@ func CalcualteDirection(d:float):
 	new_direction = (agent.get_next_path_position() - global_position).normalized() * SPEED * d
 func Update_target_location(location:Vector3):
 	agent.set_target_position(location)
+func Mob_Attack():
+	CalculateDistanceToPlayer()
+	#if distanceToPlayer.length() <= minAtkDistance:
+		#player.Take_Damage(mob_damage)
+func _on_area_sight_body_entered(body):
+	if body.is_in_group("player"):
+		body.Take_Damage(mob_damage)

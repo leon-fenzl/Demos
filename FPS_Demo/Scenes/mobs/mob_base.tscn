@@ -1,0 +1,79 @@
+[gd_scene load_steps=9 format=3 uid="uid://3nt0bu8ihidt"]
+
+[ext_resource type="Script" path="res://Scripts/Mobs/Mob_Base.gd" id="1_h86yh"]
+[ext_resource type="Material" uid="uid://dsucxku67jw68" path="res://Materials/Mat_Mob_Ground.tres" id="2_83tln"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0vot7"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tjs5v"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_uxuhf"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_7qn83"]
+viewport_path = NodePath("Sprite3D/SubViewport")
+
+[sub_resource type="LabelSettings" id="LabelSettings_pr365"]
+font_size = 24
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_wfyyo"]
+radius = 1.5
+
+[node name="BaseMob" type="CharacterBody3D" groups=["mobs"]]
+collision_layer = 4
+collision_mask = 15
+script = ExtResource("1_h86yh")
+SPEED = 100.0
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_max_distance = 10.01
+avoidance_enabled = true
+radius = 0.1
+neighbor_distance = 5.0
+keep_y_velocity = false
+debug_enabled = true
+debug_use_custom = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_0vot7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_tjs5v")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, -8.74228e-09, 0.2, 0, -0.2, -8.74228e-09, 0, 0.9, -0.6)
+mesh = SubResource("PrismMesh_uxuhf")
+surface_material_override/0 = ExtResource("2_83tln")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_7qn83")
+
+[node name="SubViewport" type="SubViewport" parent="Sprite3D"]
+transparent_bg = true
+size = Vector2i(128, 128)
+
+[node name="Label" type="Label" parent="Sprite3D/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+label_settings = SubResource("LabelSettings_pr365")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Bullet_Sight" type="RayCast3D" parent="."]
+target_position = Vector3(0, -0.5, -1)
+collision_mask = 4
+
+[node name="Area_Sight" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 7
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area_Sight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+shape = SubResource("SphereShape3D_wfyyo")

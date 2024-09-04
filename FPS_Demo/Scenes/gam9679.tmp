@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://Scripts/Btt_Back.gd" id="3_753ag"]
 [ext_resource type="PackedScene" uid="uid://bqh0gq7v7n7ov" path="res://Scenes/Player/tps_player.tscn" id="4_emgy0"]
 [ext_resource type="PackedScene" uid="uid://cxsq5gt857et0" path="res://Scenes/mobs/mob_flyer.tscn" id="5_p3kkx"]
-[ext_resource type="PackedScene" uid="uid://b3i1do3wi2w1c" path="res://Scenes/mobs/mob_runner.tscn" id="6_16o3w"]
+[ext_resource type="PackedScene" uid="uid://dt6pn1phwe4po" path="res://Scenes/mobs/mob_runner.tscn" id="6_16o3w"]
 [ext_resource type="Script" path="res://Scripts/NavBakeRecall.gd" id="6_n2tgn"]
 [ext_resource type="Material" uid="uid://c6wrh487t0356" path="res://Materials/Mat_Ground.tres" id="7_f21mg"]
 
@@ -190,21 +190,20 @@ collision_layer = 2
 collision_mask = 29
 
 [node name="Mob_Flyer" parent="." instance=ExtResource("5_p3kkx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14145, -14.3)
-minGroundDist = 25.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.30618, -8.4)
+minGroundDist = 15.0
 playerRef = NodePath("../TPS_Player")
-life = 1.0
-mob_damage = 1.0
-dmgCtrl = 1.0
-SPEED = 50.0
-bullet_speed = 500.0
+life = 10.0
+mob_damage = 10.0
+dmg_dappener = 1.0
+SPEED = 10.0
 
 [node name="Mob_Runner" parent="." instance=ExtResource("6_16o3w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, 20.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 16.3)
 playerRef = NodePath("../TPS_Player")
-life = 1.0
-mob_damage = 1.0
-bullet_speed = 500.0
+life = 10.0
+mob_damage = 10.0
+dmg_dappener = 1.0
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." groups=["grounds"]]
 navigation_mesh = SubResource("NavigationMesh_p2oj2")
@@ -334,7 +333,7 @@ surface_material_override/0 = ExtResource("7_f21mg")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_3pjj1")
 
-[node name="QuadrantMarker" type="StaticBody3D" parent="NavigationRegion3D" groups=["ground"]]
+[node name="QuadrantMarker" type="StaticBody3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25)
 collision_mask = 14
 metadata/_edit_group_ = true
@@ -348,7 +347,7 @@ surface_material_override/0 = ExtResource("7_f21mg")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_o3cx5")
 
-[node name="QuadrantMarker2" type="StaticBody3D" parent="NavigationRegion3D" groups=["ground"]]
+[node name="QuadrantMarker2" type="StaticBody3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25)
 collision_mask = 14
 metadata/_edit_group_ = true
@@ -362,7 +361,7 @@ surface_material_override/0 = ExtResource("7_f21mg")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_o3cx5")
 
-[node name="QuadrantMarker3" type="StaticBody3D" parent="NavigationRegion3D" groups=["ground"]]
+[node name="QuadrantMarker3" type="StaticBody3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 3.05474e-06)
 collision_mask = 14
 metadata/_edit_group_ = true
@@ -376,7 +375,7 @@ surface_material_override/0 = ExtResource("7_f21mg")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_o3cx5")
 
-[node name="QuadrantMarker4" type="StaticBody3D" parent="NavigationRegion3D" groups=["ground"]]
+[node name="QuadrantMarker4" type="StaticBody3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 3.05474e-06)
 collision_mask = 14
 metadata/_edit_group_ = true
