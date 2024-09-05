@@ -8,24 +8,23 @@ func _physics_process(delta):
 	LookAtDirection()
 	Suck_Launch(delta)
 func LookAtDirection():
-	if Input.is_action_pressed("launch"):
+	if Input.is_action_pressed("aim"):
 		parent.rotation.y = parent.camSystem.rotation.y
 	else:
 		if parent.move_Input.x != 0.0 || parent.move_Input.z != 0.0:
 			parent.look_at(parent.position + parent.move_Input, Vector3.UP)
 func Suck_Launch(DELTA:float):
-	if (Input.is_action_just_pressed("launch") 
-	and parent.camSystem.ray.is_colliding() 
-	and parent.target == null):
+	if Input.is_action_just_pressed("aim") and parent.camSystem.ray.is_colliding():
+		if parent.target == null and !parent.camSystem.ray.get_collider().is_in_group("ground"):
 			parent.target = parent.camSystem.ray.get_collider()
-	if Input.is_action_pressed("launch"):
+	if Input.is_action_pressed("aim"):
 		SetLaunchDirection()
 		if parent.target != null:
 			parent.target.transform.basis = parent.holder.global_transform.basis
 			parent.target.holdPosition = parent.holder.global_position
 			if parent.target.moveState != parent.target.MOVE_TYPES.SUCKED:
 				parent.target.moveState = parent.target.MOVE_TYPES.SUCKED
-	if Input.is_action_just_released("launch") and parent.target != null:
+	if Input.is_action_just_released("aim") and parent.target != null:
 		parent.target.playerVelocity = -parent.transform.basis.z
 		parent.target.moveState = parent.target.MOVE_TYPES.BULLET
 		parent.target = null

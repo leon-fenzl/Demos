@@ -15,5 +15,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
 gizmo_extents = 2.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
-h_offset = 2.0
 current = true

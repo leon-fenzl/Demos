@@ -3,6 +3,8 @@ class_name Player
 #
 @export var camRef : NodePath
 @onready var camSystem = get_node(camRef)
+@export var GameMenu : NodePath
+@onready var menus = get_node(GameMenu)
 #
 @export var life := 10.0
 @export_range(0.1,1.0,0.1) var dmg_ctrl :float
@@ -54,11 +56,10 @@ func PushRigids():
 		if is_on_wall() && col.get_collider().gravity_scale>0.5:
 			col.get_collider().apply_central_impulse(-col.get_normal()*(col.get_collider().mass))
 func Take_Damage(dmg:=0.0):
-	life = life - dmg * dmg_ctrl
-	print(life)
+	life -= dmg * dmg_ctrl
 	#if life <= 0.5:
 		#Death()
 func Death():
-	queue_free()
+	menus.Menu_Restart()
 func _on_sight_body_entered(body):
 	pass

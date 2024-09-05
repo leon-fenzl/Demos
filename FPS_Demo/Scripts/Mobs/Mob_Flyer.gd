@@ -6,6 +6,7 @@ class_name Mob_Flyer
 @onready var groundDistance := Vector3.ZERO
 @export var minGroundDist := 10.0
 @onready var sight := $Area_Sight
+
 func _ready():
 	height_Pos = global_position
 func _physics_process(delta):
@@ -19,8 +20,7 @@ func _physics_process(delta):
 		MOVE_TYPES.SUCKED:
 			On_Sucktion(delta)
 		MOVE_TYPES.BULLET:
-			Bullet_Attack()
-			BeLaunched(delta)
+			Bh_Bullet(delta)
 			move_and_slide()
 func Recalculate_Height(DELTA:float):
 	groundDistance  = global_position - (rayG.get_collision_normal()*-1)
@@ -37,3 +37,5 @@ func _on_location_timer_timeout():
 	pass # Replace with function body.body
 func Mob_Attack():
 	pass
+func _on_area_sight_body_entered(body):
+	Within_Sight_Area($".",body)

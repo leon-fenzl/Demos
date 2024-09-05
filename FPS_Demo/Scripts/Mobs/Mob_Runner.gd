@@ -22,8 +22,7 @@ func _physics_process(delta):
 		MOVE_TYPES.SUCKED:
 			On_Sucktion(delta)
 		MOVE_TYPES.BULLET:
-			Bullet_Attack()
-			BeLaunched(delta)
+			Bh_Bullet(delta)
 			move_and_slide()
 func GravitySystem(DELTA:float):	
 	if !is_on_floor():
@@ -39,5 +38,9 @@ func Mob_Attack():
 	#if distanceToPlayer.length() <= minAtkDistance:
 		#player.Take_Damage(mob_damage)
 func _on_area_sight_body_entered(body):
-	if body.is_in_group("player"):
-		body.Take_Damage(mob_damage)
+	match moveState:
+		MOVE_TYPES.MOVE:
+			if body.is_in_group("player"):
+				body.Take_Damage(mob_damage)
+		MOVE_TYPES.BULLET:
+			Within_Sight_Area($".",body)

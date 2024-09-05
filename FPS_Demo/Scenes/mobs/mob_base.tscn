@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://3nt0bu8ihidt"]
+[gd_scene load_steps=10 format=3 uid="uid://3nt0bu8ihidt"]
 
 [ext_resource type="Script" path="res://Scripts/Mobs/Mob_Base.gd" id="1_h86yh"]
 [ext_resource type="Material" uid="uid://dsucxku67jw68" path="res://Materials/Mat_Mob_Ground.tres" id="2_83tln"]
@@ -16,7 +16,9 @@ viewport_path = NodePath("Sprite3D/SubViewport")
 font_size = 24
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_wfyyo"]
-radius = 1.5
+radius = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jwo5o"]
 
 [node name="BaseMob" type="CharacterBody3D" groups=["mobs"]]
 collision_layer = 4
@@ -40,7 +42,7 @@ shape = SubResource("CapsuleShape3D_0vot7")
 mesh = SubResource("CapsuleMesh_tjs5v")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.2, 0, 0, 0, -8.74228e-09, 0.2, 0, -0.2, -8.74228e-09, 0, 0.9, -0.6)
+transform = Transform3D(0.2, 0, 0, 0, -8.74228e-09, 0.2, 0, -0.2, -8.74228e-09, 0, -5.96046e-08, -0.6)
 mesh = SubResource("PrismMesh_uxuhf")
 surface_material_override/0 = ExtResource("2_83tln")
 
@@ -75,5 +77,7 @@ collision_mask = 7
 metadata/_edit_group_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area_Sight"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 shape = SubResource("SphereShape3D_wfyyo")
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+shape = SubResource("SphereShape3D_jwo5o")

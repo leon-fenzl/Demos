@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://cf7q8pdri77u8"]
+[gd_scene load_steps=15 format=3 uid="uid://cf7q8pdri77u8"]
 
 [ext_resource type="PackedScene" uid="uid://wp3feiucmjg2" path="res://Scenes/Player/CameraSystem.tscn" id="1_iqlcs"]
+[ext_resource type="Script" path="res://Scripts/game_manager.gd" id="1_yvvjj"]
 [ext_resource type="Script" path="res://Scripts/GameMenus.gd" id="1_yw8my"]
 [ext_resource type="Script" path="res://Scripts/Btt_Back.gd" id="3_753ag"]
 [ext_resource type="PackedScene" uid="uid://bqh0gq7v7n7ov" path="res://Scenes/Player/tps_player.tscn" id="4_emgy0"]
@@ -27,6 +28,9 @@ size = Vector3(50, 1, 50)
 
 [node name="game" type="Node"]
 
+[node name="game manager" type="Node" parent="."]
+script = ExtResource("1_yvvjj")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HUD" type="Control" parent="CanvasLayer"]
@@ -40,7 +44,6 @@ metadata/_edit_use_anchors_ = true
 
 [node name="GameMenus" type="Control" parent="CanvasLayer"]
 process_mode = 3
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,7 +53,14 @@ grow_vertical = 2
 script = ExtResource("1_yw8my")
 metadata/_edit_use_anchors_ = true
 
-[node name="Bg_Menus" type="ColorRect" parent="CanvasLayer/GameMenus"]
+[node name="Base_Menu" type="Control" parent="CanvasLayer/GameMenus"]
+visible = false
+custom_minimum_size = Vector2(1280, 720)
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Bg_Menus" type="ColorRect" parent="CanvasLayer/GameMenus/Base_Menu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,98 +70,85 @@ grow_vertical = 2
 color = Color(0.423529, 0.423529, 0.423529, 0.521569)
 metadata/_edit_use_anchors_ = true
 
-[node name="Resume" type="Button" parent="CanvasLayer/GameMenus"]
+[node name="Resume" type="Button" parent="CanvasLayer/GameMenus/Base_Menu"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = -120.0
-offset_right = 64.0
-offset_bottom = -88.0
+anchors_preset = -1
+anchor_left = 0.015625
+anchor_top = 0.00555556
+anchor_right = 0.015625
+anchor_bottom = 0.00555556
+offset_left = 556.0
+offset_top = 220.0
+offset_right = 684.0
+offset_bottom = 252.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Resume
 "
 metadata/_edit_use_anchors_ = true
 
-[node name="Retry" type="Button" parent="CanvasLayer/GameMenus"]
+[node name="Retry" type="Button" parent="CanvasLayer/GameMenus/Base_Menu"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = -56.0
-offset_right = 64.0
-offset_bottom = -24.0
+anchors_preset = -1
+anchor_left = 0.015625
+anchor_top = 0.00555556
+anchor_right = 0.015625
+anchor_bottom = 0.00555556
+offset_left = 556.0
+offset_top = 284.0
+offset_right = 684.0
+offset_bottom = 316.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Retry
 "
 metadata/_edit_use_anchors_ = true
 
-[node name="Options" type="Button" parent="CanvasLayer/GameMenus"]
+[node name="Options" type="Button" parent="CanvasLayer/GameMenus/Base_Menu"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = 8.0
-offset_right = 64.0
-offset_bottom = 40.0
+anchors_preset = -1
+anchor_left = 0.015625
+anchor_top = 0.00555556
+anchor_right = 0.015625
+anchor_bottom = 0.00555556
+offset_left = 556.0
+offset_top = 348.0
+offset_right = 684.0
+offset_bottom = 380.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Options
 "
 metadata/_edit_use_anchors_ = true
 
-[node name="Quit" type="Button" parent="CanvasLayer/GameMenus"]
+[node name="Quit" type="Button" parent="CanvasLayer/GameMenus/Base_Menu"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = 72.0
-offset_right = 64.0
-offset_bottom = 104.0
+anchors_preset = -1
+anchor_left = 0.015625
+anchor_top = 0.00555556
+anchor_right = 0.015625
+anchor_bottom = 0.00555556
+offset_left = 556.0
+offset_top = 412.0
+offset_right = 684.0
+offset_bottom = 444.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Quit
 "
 metadata/_edit_use_anchors_ = true
 
-[node name="Menu_Options" type="Control" parent="CanvasLayer/GameMenus"]
+[node name="BttsOptions" type="Control" parent="CanvasLayer/GameMenus/Base_Menu"]
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_use_anchors_ = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="Bg_Options" type="ColorRect" parent="CanvasLayer/GameMenus/Menu_Options"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="Btt_Back" type="Button" parent="CanvasLayer/GameMenus/Menu_Options"]
+[node name="Back" type="Button" parent="CanvasLayer/GameMenus/Base_Menu/BttsOptions"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
 anchors_preset = 8
@@ -159,10 +156,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = 184.0
-offset_right = 64.0
-offset_bottom = 216.0
+offset_left = 556.0
+offset_top = 524.0
+offset_right = 684.0
+offset_bottom = 556.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Back
@@ -170,16 +167,15 @@ text = "Back
 script = ExtResource("3_753ag")
 metadata/_edit_use_anchors_ = true
 
-[node name="game manager" type="Node" parent="."]
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5, 0)
 shadow_enabled = true
 
 [node name="CameraSystem" parent="." instance=ExtResource("1_iqlcs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.9, 8.4)
-displace_Height = 1.0
+displace_Height = 2.0
 mouse_Speed = 0.05
+offset = 2.0
 pitch = Vector2(-60, 60)
 armLength = Vector2(2, 15)
 playerRef = NodePath("../TPS_Player")
@@ -188,6 +184,7 @@ playerRef = NodePath("../TPS_Player")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 0)
 collision_layer = 2
 collision_mask = 29
+GameMenu = NodePath("../CanvasLayer/GameMenus")
 
 [node name="Mob_Flyer" parent="." instance=ExtResource("5_p3kkx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14145, -14.3)
@@ -393,9 +390,9 @@ shape = SubResource("BoxShape3D_o3cx5")
 [node name="Timer" type="Timer" parent="NavigationRegion3D"]
 script = ExtResource("6_n2tgn")
 
-[connection signal="button_down" from="CanvasLayer/GameMenus/Resume" to="CanvasLayer/GameMenus" method="_on_resume_button_down"]
-[connection signal="button_down" from="CanvasLayer/GameMenus/Retry" to="CanvasLayer/GameMenus" method="_on_retry_button_down"]
-[connection signal="button_down" from="CanvasLayer/GameMenus/Options" to="CanvasLayer/GameMenus" method="_on_options_button_down"]
-[connection signal="button_down" from="CanvasLayer/GameMenus/Quit" to="CanvasLayer/GameMenus" method="_on_quit_button_down"]
-[connection signal="button_down" from="CanvasLayer/GameMenus/Menu_Options/Btt_Back" to="CanvasLayer/GameMenus/Menu_Options/Btt_Back" method="_on_button_down"]
+[connection signal="button_down" from="CanvasLayer/GameMenus/Base_Menu/Resume" to="CanvasLayer/GameMenus" method="_on_resume_button_down"]
+[connection signal="button_down" from="CanvasLayer/GameMenus/Base_Menu/Retry" to="CanvasLayer/GameMenus" method="_on_retry_button_down"]
+[connection signal="button_down" from="CanvasLayer/GameMenus/Base_Menu/Options" to="CanvasLayer/GameMenus" method="_on_options_button_down"]
+[connection signal="button_down" from="CanvasLayer/GameMenus/Base_Menu/Quit" to="CanvasLayer/GameMenus" method="_on_quit_button_down"]
+[connection signal="button_down" from="CanvasLayer/GameMenus/Base_Menu/BttsOptions/Back" to="CanvasLayer/GameMenus/Base_Menu/BttsOptions/Back" method="_on_button_down"]
 [connection signal="timeout" from="NavigationRegion3D/Timer" to="NavigationRegion3D/Timer" method="_on_timeout"]

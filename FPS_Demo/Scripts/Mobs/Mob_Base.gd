@@ -18,7 +18,8 @@ enum BULLET_TYPE {TYPE_1,TYPE_2,TYPE_3,TYPE_4,TYPE_5}
 @export var minAtkDistance := 5.0
 #
 @onready var bullet_sight := $Bullet_Sight
-#@onready var bodies : Array
+@onready var bullet_target : Node
+@onready var bullet_target_normal := Vector3.ZERO
 #
 @onready var gravityVector = ProjectSettings.get_setting("physics/3d/default_gravity_vector")
 @onready var holdPosition := Vector3.ZERO
@@ -42,19 +43,25 @@ func Anim_Controller():
 	pass
 func On_Sucktion(DELTA:float):
 	global_position = lerp(global_position,holdPosition,10*DELTA)
-func BeLaunched(DELTA:float):
-	velocity += -transform.basis.z+playerVelocity*DELTA
 func Take_Damage(dmg:float):
 	life -= dmg * dmgCtrl
 	print(life)
 	if life <= 0.5:
 		Death()
-func Bullet_Attack():
-	if bullet_sight.is_colliding():
-		if bullet_sight.get_collider().is_in_group("mobs"):
-			bullet_sight.get_collider().Take_Damage(mob_damage)
-			Death()
-		else:
+func Bh_Bullet(DELTA:float):
+	#bullet_sight.look_at(bullet_target.global_position + bullet_target_normal,Vector3.UP)
+	velocity += -transform.basis.z+playerVelocity*DELTA
+	#if bullet_sight.is_colliding():
+		#if bullet_sight.get_collider().is_in_group("mobs"):
+			#bullet_sight.get_collider().Take_Damage(mob_damage)
+			#Death()
+		#else:
+			#Death()
+func Within_Sight_Area(parent:Node,body:Node):
+	if parent.moveState == MOVE_TYPES.BULLET:
+		if body.is_in_group("mobs"):
+			body.Take_Damage(mob_damage)
+		if  body.is_on_floor() || body.is_on_wall():
 			Death()
 func Death():
 	queue_free()
