@@ -5,8 +5,7 @@ class_name Mob_Flyer
 @onready var rayG := $RayGround
 @onready var groundDistance := Vector3.ZERO
 @export var minGroundDist := 10.0
-@onready var sight := $Area_Sight
-
+@onready var move_direction := Vector3.ZERO
 func _ready():
 	height_Pos = global_position
 func _physics_process(delta):
@@ -14,8 +13,10 @@ func _physics_process(delta):
 		MOVE_TYPES.MOVE:
 			Relative_Rotation_GroundRay()
 			Recalculate_Height(delta)
-			look_at(player.global_position,Vector3.UP)
-			global_position = new_direction + height_Pos
+			Move_To_Player(delta)
+			velocity = move_direction + height_Pos
+			move_and_slide()
+			look_at(player.global_position)
 			Mob_Attack()
 		MOVE_TYPES.SUCKED:
 			On_Sucktion(delta)
@@ -23,19 +24,20 @@ func _physics_process(delta):
 			Bh_Bullet(delta)
 			move_and_slide()
 func Recalculate_Height(DELTA:float):
-	groundDistance  = global_position - (rayG.get_collision_normal()*-1)
-	if groundDistance.length() <= minGroundDist:
-		height_Pos = lerp(height_Pos,groundDistance,10*DELTA)
-func GravitySystem(DELTA:float):
-	if !is_on_floor():
-		gravityVector *= 100 * DELTA
+	groundDistance  = global_position - -rayG.get_collision_normal()
+	if groundDistance.length() < minGroundDist:
+		height_Pos += lerp(height_Pos,groundDistance,(SPEED*0.1)*DELTA)
 	else:
-		gravityVector = Vector3.ZERO
+		height_Pos = Vector3.ZERO
 func Relative_Rotation_GroundRay():
 	rayG.rotation.x = -rotation.x
-func _on_location_timer_timeout():
-	pass # Replace with function body.body
+func Move_To_Player(DELTA:float):
+	distanceToPlayer.x = player.global_position.x - global_position.x
+	distanceToPlayer.z = player.global_position.z - global_position.z
+	if distanceToPlayer.length() >= minAtkDistance:
+		move_direction = lerp(move_direction,distanceToPlayer*SPEED*DELTA,24.0 * DELTA)
+
+	else:
+		move_direction = Vector3.ZERO
 func Mob_Attack():
 	pass
-func _on_area_sight_body_entered(body):
-	Within_Sight_Area($".",body)

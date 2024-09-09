@@ -1,18 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://wp3feiucmjg2"]
+[gd_scene load_steps=3 format=3 uid="uid://wp3feiucmjg2"]
 
 [ext_resource type="Script" path="res://Scripts/CameraSystem.gd" id="1_i1rne"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fyxlx"]
 
 [node name="CameraSystem" type="SpringArm3D"]
 spring_length = 5.0
 script = ExtResource("1_i1rne")
+displace_Height = 2.0
 
-[node name="RayCast3D" type="RayCast3D" parent="."]
+[node name="AimCast" type="ShapeCast3D" parent="."]
+shape = SubResource("SphereShape3D_fyxlx")
 target_position = Vector3(0, 0, -100)
+margin = 0.5
 collision_mask = 5
 
-[node name="Marker3D" type="Marker3D" parent="RayCast3D"]
+[node name="Marker3D" type="Marker3D" parent="AimCast"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
 gizmo_extents = 2.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
+h_offset = 2.0
 current = true

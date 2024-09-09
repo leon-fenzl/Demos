@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://bm3hms8c8qbnv"]
+
+[node name="SpawnerMarker" type="Marker3D"]
+gizmo_extents = 1.0

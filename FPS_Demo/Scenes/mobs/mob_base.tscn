@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://3nt0bu8ihidt"]
+[gd_scene load_steps=9 format=3 uid="uid://3nt0bu8ihidt"]
 
 [ext_resource type="Script" path="res://Scripts/Mobs/Mob_Base.gd" id="1_h86yh"]
 [ext_resource type="Material" uid="uid://dsucxku67jw68" path="res://Materials/Mat_Mob_Ground.tres" id="2_83tln"]
@@ -15,10 +15,8 @@ viewport_path = NodePath("Sprite3D/SubViewport")
 [sub_resource type="LabelSettings" id="LabelSettings_pr365"]
 font_size = 24
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_wfyyo"]
-radius = 1.0
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_jwo5o"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_y2xif"]
+radius = 2.0
 
 [node name="BaseMob" type="CharacterBody3D" groups=["mobs"]]
 collision_layer = 4
@@ -67,17 +65,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="Bullet_Sight" type="RayCast3D" parent="."]
-target_position = Vector3(0, -0.5, -1)
-collision_mask = 4
-
-[node name="Area_Sight" type="Area3D" parent="."]
-collision_layer = 4
-collision_mask = 7
-metadata/_edit_group_ = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area_Sight"]
-shape = SubResource("SphereShape3D_wfyyo")
-
-[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
-shape = SubResource("SphereShape3D_jwo5o")
+[node name="Shape_Sight" type="ShapeCast3D" parent="."]
+shape = SubResource("SphereShape3D_y2xif")
+target_position = Vector3(0, 0, 0)
+collision_mask = 5

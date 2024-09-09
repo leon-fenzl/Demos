@@ -13,6 +13,7 @@ minGroundDist = 20.0
 life = 1.0
 mob_damage = 1.0
 dmgCtrl = 1.0
+SPEED = 10.0
 
 [node name="MeshInstance3D" parent="." index="2"]
 surface_material_override/0 = ExtResource("3_4k2ys")

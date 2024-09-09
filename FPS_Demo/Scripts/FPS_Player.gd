@@ -3,8 +3,9 @@ class_name Player
 #
 @export var camRef : NodePath
 @onready var camSystem = get_node(camRef)
-@export var GameMenu : NodePath
-@onready var menus = get_node(GameMenu)
+#@export var GameMenu : NodePath
+#@onready var menus = get_node(GameMenu)
+@onready var menus : Control
 #
 @export var life := 10.0
 @export_range(0.1,1.0,0.1) var dmg_ctrl :float
@@ -24,6 +25,9 @@ class_name Player
 @onready var interLabel := $Sprite3D/SubViewport/Label
 #
 @onready var col : KinematicCollision3D
+func _ready():
+	$HUD.Register_Life(life)
+	menus = get_tree().get_first_node_in_group("menus")
 func _physics_process(delta):
 	Custom_Gravity(delta)
 	RegularMove(delta)
@@ -57,8 +61,9 @@ func PushRigids():
 			col.get_collider().apply_central_impulse(-col.get_normal()*(col.get_collider().mass))
 func Take_Damage(dmg:=0.0):
 	life -= dmg * dmg_ctrl
-	#if life <= 0.5:
-		#Death()
+	$HUD.Register_Life(life)
+	if life <= 0.5:
+		Death()
 func Death():
 	menus.Menu_Restart()
 func _on_sight_body_entered(body):

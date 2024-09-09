@@ -9,8 +9,8 @@ viewport_path = NodePath("Sprite3D/SubViewport")
 
 [node name="Mob_Runner" instance=ExtResource("1_a0lhx")]
 script = ExtResource("2_pu3al")
-life = 10.0
-mob_damage = 10.0
+life = 1.0
+mob_damage = 1.0
 dmgCtrl = 1.0
 SPEED = 50.0
 
@@ -24,4 +24,3 @@ surface_material_override/0 = ExtResource("3_iso3y")
 texture = SubResource("ViewportTexture_eept6")
 
 [connection signal="timeout" from="Loc_Timer" to="." method="_on_loc_timer_timeout"]
-[connection signal="body_entered" from="Area_Sight" to="." method="_on_area_sight_body_entered"]

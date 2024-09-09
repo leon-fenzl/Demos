@@ -1,0 +1,149 @@
+[gd_scene load_steps=3 format=3 uid="uid://dej4o3vx7hu0d"]
+
+[ext_resource type="Script" path="res://Scripts/GameMenus.gd" id="1_porkq"]
+[ext_resource type="Script" path="res://Scripts/Btt_Back.gd" id="2_eiggk"]
+
+[node name="GameMenus" type="Control"]
+process_mode = 3
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_porkq")
+metadata/_edit_use_anchors_ = true
+
+[node name="Base_Menu" type="Control" parent="."]
+visible = false
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bg_Menus" type="ColorRect" parent="Base_Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.423529, 0.423529, 0.423529, 0.521569)
+metadata/_edit_use_anchors_ = true
+
+[node name="Resume" type="Button" parent="Base_Menu"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.377778
+anchor_right = 0.5
+anchor_bottom = 0.377778
+offset_left = -64.0
+offset_top = -16.0
+offset_right = 64.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resume
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="Retry" type="Button" parent="Base_Menu"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.466667
+anchor_right = 0.5
+anchor_bottom = 0.466667
+offset_left = -64.0
+offset_top = -16.0
+offset_right = 64.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Retry
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="Options" type="Button" parent="Base_Menu"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.555556
+anchor_right = 0.5
+anchor_bottom = 0.555556
+offset_left = -64.0
+offset_top = -16.0
+offset_right = 64.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Options
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="Quit" type="Button" parent="Base_Menu"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.644444
+anchor_right = 0.5
+anchor_bottom = 0.644444
+offset_left = -64.0
+offset_top = -16.0
+offset_right = 64.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="BttsOptions" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Bg_Menus" type="ColorRect" parent="BttsOptions"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.423529, 0.423529, 0.423529, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Back" type="Button" parent="BttsOptions"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 556.0
+offset_top = 524.0
+offset_right = 684.0
+offset_bottom = 556.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back
+"
+script = ExtResource("2_eiggk")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="button_down" from="Base_Menu/Resume" to="." method="_on_resume_button_down"]
+[connection signal="button_down" from="Base_Menu/Retry" to="." method="_on_retry_button_down"]
+[connection signal="button_down" from="Base_Menu/Options" to="." method="_on_options_button_down"]
+[connection signal="button_down" from="Base_Menu/Quit" to="." method="_on_quit_button_down"]
+[connection signal="button_down" from="BttsOptions/Back" to="BttsOptions/Back" method="_on_button_down"]

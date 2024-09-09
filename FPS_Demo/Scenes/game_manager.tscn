@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbgj7o6ptryrg"]
+
+[ext_resource type="Script" path="res://Scripts/game_manager.gd" id="1_e4qmr"]
+
+[node name="game manager" type="Node"]
+script = ExtResource("1_e4qmr")
+startTimer = 10.0
+
+[connection signal="spawnMobs" from="." to="." method="_on_spawn_mobs"]
+[connection signal="spawnPlayer" from="." to="." method="_on_spawn_player"]

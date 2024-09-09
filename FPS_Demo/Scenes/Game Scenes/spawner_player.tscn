@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1q4caddwerux"]
+
+[ext_resource type="Script" path="res://Scripts/spawner_player.gd" id="1_d7krf"]
+
+[node name="Spawner_Player" type="Node3D"]
+script = ExtResource("1_d7krf")
+
+[connection signal="spawn" from="." to="." method="_on_spawn"]

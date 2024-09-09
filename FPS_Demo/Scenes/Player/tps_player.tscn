@@ -1,9 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqh0gq7v7n7ov"]
+[gd_scene load_steps=14 format=3 uid="uid://bqh0gq7v7n7ov"]
 
 [ext_resource type="Script" path="res://Scripts/FPS_Player.gd" id="1_l3746"]
 [ext_resource type="Script" path="res://Scripts/PlayerAbilities.gd" id="2_js5yk"]
 [ext_resource type="Material" uid="uid://1qn1j3uuqsrc" path="res://Materials/Mat_Player.tres" id="3_1taom"]
-[ext_resource type="Script" path="res://Scenes/Player/Player_Anim_Ctrl.gd" id="3_ec58r"]
+[ext_resource type="Script" path="res://Scripts/Player_Anim_Ctrl.gd" id="3_t54f8"]
+[ext_resource type="PackedScene" uid="uid://wp3feiucmjg2" path="res://Scenes/Player/CameraSystem.tscn" id="4_nmhnp"]
+[ext_resource type="Script" path="res://Scripts/HUD_Controler.gd" id="6_qjh4e"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8emlk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0vot7"]
 
@@ -22,9 +26,10 @@ viewport_path = NodePath("Sprite3D/SubViewport")
 font_size = 24
 
 [node name="TPS_Player" type="CharacterBody3D" groups=["player"]]
-collision_mask = 30
+collision_layer = 2
+collision_mask = 29
 script = ExtResource("1_l3746")
-camRef = NodePath("../CameraSystem")
+camRef = NodePath("CameraSystem")
 dmg_ctrl = 1.0
 speed = 500.0
 jumpForce = 2000.0
@@ -34,7 +39,12 @@ interText = "Interact"
 script = ExtResource("2_js5yk")
 
 [node name="Player_Anim_Ctrl" type="Node" parent="."]
-script = ExtResource("3_ec58r")
+script = ExtResource("3_t54f8")
+
+[node name="CameraSystem" parent="." instance=ExtResource("4_nmhnp")]
+shape = SubResource("SphereShape3D_8emlk")
+mouse_Speed = 0.1
+playerRef = NodePath("..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.45058e-08, 0, 0)
@@ -81,5 +91,33 @@ label_settings = SubResource("LabelSettings_uwd7n")
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
+
+[node name="HUD" type="Control" parent="."]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_qjh4e")
+metadata/_edit_use_anchors_ = true
+
+[node name="ProgressBar" type="ProgressBar" parent="HUD"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -152.0
+offset_top = -56.0
+offset_right = 152.0
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 0
+max_value = 10.0
+step = 1.0
+show_percentage = false
 
 [connection signal="body_entered" from="Sight" to="." method="_on_sight_body_entered"]

@@ -6,8 +6,8 @@ enum MENU_TYPES{PAUSED,RESTART}
 @onready var btt_Retry := $Base_Menu/Retry
 @onready var btt_Options := $Base_Menu/Options
 @onready var btt_Quit := $Base_Menu/Quit
-@onready var btt_Back := $Base_Menu/BttsOptions/Back
-@onready var menuOptions := $Base_Menu/BttsOptions
+@onready var btt_Back := $BttsOptions/Back
+@onready var menuOptions := $BttsOptions
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 func _input(event):

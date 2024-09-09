@@ -8,22 +8,22 @@ enum AI_LVL {ONE,TWO,THREE,FOUR,FIVE}
 enum BULLET_TYPE {TYPE_1,TYPE_2,TYPE_3,TYPE_4,TYPE_5}
 @export var bulletType = BULLET_TYPE.TYPE_1
 #
-@export var playerRef : NodePath
-@onready var player := get_node(playerRef)
+@export_group("MOB Base Values")
+@onready var player : Node
 @export var life := 0.0
 @export var mob_damage := 0.0
 @export_range(0.1,1.0,0.1) var dmgCtrl : float
 @export var SPEED : float
 @onready var distanceToPlayer := Vector3.ZERO
 @export var minAtkDistance := 5.0
-#
-@onready var bullet_sight := $Bullet_Sight
+@export_group("Bullet Behaviour")
+@export var bullet_speed := 500.0
+@onready var bullet_sight := $Shape_Sight
 @onready var bullet_target : Node
 @onready var bullet_target_normal := Vector3.ZERO
 #
 @onready var gravityVector = ProjectSettings.get_setting("physics/3d/default_gravity_vector")
 @onready var holdPosition := Vector3.ZERO
-@export var bullet_speed := 10.0
 @onready var playerVelocity := Vector3.ZERO
 func Set_Mob_LVL():
 	match aiLvl:
@@ -45,18 +45,17 @@ func On_Sucktion(DELTA:float):
 	global_position = lerp(global_position,holdPosition,10*DELTA)
 func Take_Damage(dmg:float):
 	life -= dmg * dmgCtrl
-	print(life)
 	if life <= 0.5:
 		Death()
 func Bh_Bullet(DELTA:float):
-	#bullet_sight.look_at(bullet_target.global_position + bullet_target_normal,Vector3.UP)
-	velocity += -transform.basis.z+playerVelocity*DELTA
-	#if bullet_sight.is_colliding():
-		#if bullet_sight.get_collider().is_in_group("mobs"):
-			#bullet_sight.get_collider().Take_Damage(mob_damage)
-			#Death()
-		#else:
-			#Death()
+	velocity += -transform.basis.z*bullet_speed*DELTA
+	if bullet_sight.is_colliding():
+		if bullet_sight.get_collider(0).is_in_group("mobs"):
+			bullet_sight.get_collider(0).Take_Damage(mob_damage)
+			print(bullet_sight.get_collider(0))
+			Death()
+		else:
+			Death()
 func Within_Sight_Area(parent:Node,body:Node):
 	if parent.moveState == MOVE_TYPES.BULLET:
 		if body.is_in_group("mobs"):
@@ -64,4 +63,5 @@ func Within_Sight_Area(parent:Node,body:Node):
 		if  body.is_on_floor() || body.is_on_wall():
 			Death()
 func Death():
+	print( name + " has died")
 	queue_free()

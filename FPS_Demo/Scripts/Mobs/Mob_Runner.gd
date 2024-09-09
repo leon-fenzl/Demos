@@ -2,7 +2,6 @@ extends Mob_Base
 class_name Mob_Runner
 @onready var new_direction := Vector3.ZERO
 @onready var agent := $NavigationAgent3D
-@onready var sight := $Area_Sight
 
 func _ready():
 	moveState = MOVE_TYPES.MOVE
@@ -37,10 +36,3 @@ func Mob_Attack():
 	CalculateDistanceToPlayer()
 	#if distanceToPlayer.length() <= minAtkDistance:
 		#player.Take_Damage(mob_damage)
-func _on_area_sight_body_entered(body):
-	match moveState:
-		MOVE_TYPES.MOVE:
-			if body.is_in_group("player"):
-				body.Take_Damage(mob_damage)
-		MOVE_TYPES.BULLET:
-			Within_Sight_Area($".",body)

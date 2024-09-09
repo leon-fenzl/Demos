@@ -1,0 +1,124 @@
+[gd_scene load_steps=13 format=3 uid="uid://cf7q8pdri77u8"]
+
+[ext_resource type="PackedScene" uid="uid://dej4o3vx7hu0d" path="res://Scenes/Game Scenes/game_menus.tscn" id="1_2kv4n"]
+[ext_resource type="PackedScene" uid="uid://dbgj7o6ptryrg" path="res://Scenes/game_manager.tscn" id="1_aej4d"]
+[ext_resource type="PackedScene" uid="uid://b3i1do3wi2w1c" path="res://Scenes/mobs/mob_runner.tscn" id="2_5nje0"]
+[ext_resource type="PackedScene" uid="uid://bm3hms8c8qbnv" path="res://Scenes/spawner_marker.tscn" id="2_7quk8"]
+[ext_resource type="PackedScene" uid="uid://cxsq5gt857et0" path="res://Scenes/mobs/mob_flyer.tscn" id="3_vce8g"]
+[ext_resource type="Script" path="res://Scripts/NavBakeRecall.gd" id="6_n2tgn"]
+[ext_resource type="Material" uid="uid://c6wrh487t0356" path="res://Materials/Mat_Ground.tres" id="7_f21mg"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_p2oj2"]
+vertices = PackedVector3Array(24, 0.5, 1, 1, 0.5, 24, 1.25, 0.5, 24.5, 24.5, 0.5, 24.5, 24.5, 0.5, 1.25, -23.75, 0.5, -0.75, -23.75, 0.5, 1, -0.75, 0.5, 24, 24, 0.5, 1, 24, 0.5, -0.75, 0.75, 0.5, -23.75, -23.75, 0.5, 1, -24.5, 0.5, 1.25, -24.5, 0.5, 24.5, -1, 0.5, 24.5, -0.75, 0.5, 24, 0.75, 0.5, -23.75, -0.75, 0.5, -23.75, -23.75, 0.5, -0.75, 24, 0.5, -0.75, 24.5, 0.5, -1, 24.5, 0.5, -24.5, 1.25, 0.5, -24.5, 0.75, 0.5, -23.75, -24.5, 0.5, -24.5, -24.5, 0.5, -1, -23.75, 0.5, -0.75, -0.75, 0.5, -23.75, -1, 0.5, -24.5, -0.75, 0.5, 24, 1, 0.5, 24, 24, 0.5, 1)
+polygons = [PackedInt32Array(4, 3, 0), PackedInt32Array(0, 3, 2), PackedInt32Array(0, 2, 1), PackedInt32Array(6, 5, 7), PackedInt32Array(7, 5, 10), PackedInt32Array(7, 10, 9), PackedInt32Array(7, 9, 8), PackedInt32Array(12, 11, 13), PackedInt32Array(13, 11, 14), PackedInt32Array(14, 11, 15), PackedInt32Array(18, 17, 16), PackedInt32Array(20, 19, 21), PackedInt32Array(21, 19, 22), PackedInt32Array(22, 19, 23), PackedInt32Array(28, 27, 24), PackedInt32Array(24, 27, 26), PackedInt32Array(24, 26, 25), PackedInt32Array(31, 30, 29)]
+geometry_parsed_geometry_type = 2
+geometry_collision_mask = 5
+
+[sub_resource type="BoxMesh" id="BoxMesh_1a2yw"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3pjj1"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="BoxMesh" id="BoxMesh_188c2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o3cx5"]
+
+[node name="Game" type="Node"]
+
+[node name="game manager" parent="." node_paths=PackedStringArray("playerSpawnMarker", "mobSpawnMarker") instance=ExtResource("1_aej4d")]
+playerSpawnMarker = NodePath("SpawnerMarker")
+mobs_resources = Array[PackedScene]([ExtResource("2_5nje0"), ExtResource("3_vce8g")])
+mobSpawnMarker = NodePath("SpawnerMarker2")
+
+[node name="SpawnerMarker" parent="game manager" instance=ExtResource("2_7quk8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 20.0287)
+
+[node name="SpawnerMarker2" parent="game manager" instance=ExtResource("2_7quk8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, 1.5)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="GameMenus" parent="CanvasLayer" groups=["menus"] instance=ExtResource("1_2kv4n")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5, 0)
+shadow_enabled = true
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." groups=["grounds"]]
+navigation_mesh = SubResource("NavigationMesh_p2oj2")
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D" groups=["ground"]]
+collision_mask = 14
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_1a2yw")
+surface_material_override/0 = ExtResource("7_f21mg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_3pjj1")
+
+[node name="QuadrantMarker" type="StaticBody3D" parent="NavigationRegion3D" groups=["ground"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25)
+collision_mask = 14
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/QuadrantMarker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_188c2")
+surface_material_override/0 = ExtResource("7_f21mg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/QuadrantMarker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_o3cx5")
+
+[node name="QuadrantMarker2" type="StaticBody3D" parent="NavigationRegion3D" groups=["ground"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25)
+collision_mask = 14
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/QuadrantMarker2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_188c2")
+surface_material_override/0 = ExtResource("7_f21mg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/QuadrantMarker2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_o3cx5")
+
+[node name="QuadrantMarker3" type="StaticBody3D" parent="NavigationRegion3D" groups=["ground"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 3.05474e-06)
+collision_mask = 14
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/QuadrantMarker3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_188c2")
+surface_material_override/0 = ExtResource("7_f21mg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/QuadrantMarker3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_o3cx5")
+
+[node name="QuadrantMarker4" type="StaticBody3D" parent="NavigationRegion3D" groups=["ground"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 3.05474e-06)
+collision_mask = 14
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/QuadrantMarker4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_188c2")
+surface_material_override/0 = ExtResource("7_f21mg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/QuadrantMarker4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_o3cx5")
+
+[node name="Timer" type="Timer" parent="NavigationRegion3D"]
+script = ExtResource("6_n2tgn")
+
+[connection signal="timeout" from="NavigationRegion3D/Timer" to="NavigationRegion3D/Timer" method="_on_timeout"]

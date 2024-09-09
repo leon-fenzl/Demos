@@ -6,7 +6,6 @@ class_name CamSystem
 @export var displace_Height : float
 @export var mouse_Speed : float
 @export var ctrl_Speed : float
-@export var offset := 0.0
 
 @export var pitch := Vector2(-80.0,80.0)
 @export var yaw := Vector2(0.0,360.0)
@@ -18,8 +17,10 @@ class_name CamSystem
 @onready var new_value : float = 10
 @onready var aimPoint := Vector3.ZERO
 
-@onready var pointer := $RayCast3D/Marker3D
-@onready var ray := $RayCast3D
+@onready var pointer := $AimCast/Marker3D
+@onready var aimCast := $AimCast
+func _ready():
+	set_as_top_level(true)
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		rotation.x -= event.relative.y*mouse_Speed*get_physics_process_delta_time()
@@ -27,9 +28,8 @@ func _input(event: InputEvent) -> void:
 		rotation.y -= event.relative.x*mouse_Speed*get_physics_process_delta_time()
 		rotation.y = wrapf(rotation.y,deg_to_rad(yaw.x),deg_to_rad(yaw.y))
 func _physics_process(delta: float) -> void:
-	Lock_On_Off(delta)
-	ray.position = Vector3(cam.position.x + cam.h_offset,cam.position.y,cam.position.z-1)
-	position = lerp(position, +Vector3(player.position.x,player.position.y+displace_Height,player.position.z),10*delta)
+	aimCast.position = Vector3(cam.position.x + cam.h_offset,cam.position.y,cam.position.z-1)
+	position = lerp(position, + Vector3(player.position.x,player.position.y+displace_Height,player.position.z),24.0*delta)
 	Controller_Inputs()
 	Ctrlr_Pitch_Yaw(delta)
 func Controller_Inputs()-> void:
@@ -40,4 +40,8 @@ func Ctrlr_Pitch_Yaw(DELTA:float)-> void:
 	rotation.y -= camInputs.x*ctrl_Speed*DELTA
 	rotation.y = wrapf(rotation.y,deg_to_rad(yaw.x),deg_to_rad(yaw.y))
 func Lock_On_Off(DELTA:float):
-	cam.h_offset = lerpf(cam.h_offset,offset*Input.get_action_raw_strength("aim"),24.0*DELTA)
+	#cam.h_offset = lerpf(cam.h_offset,offset*Input.get_action_raw_strength("aim"),24.0*DELTA)
+	if Input.is_action_pressed("aim"):
+		self.set_length(lerpf(self.spring_length,2,24.0*DELTA))
+	else:
+		self.set_length(lerpf(self.spring_length,10,24.0*DELTA))
