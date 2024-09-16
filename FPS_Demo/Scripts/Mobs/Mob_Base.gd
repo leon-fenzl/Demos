@@ -52,7 +52,6 @@ func Bh_Bullet(DELTA:float):
 	if bullet_sight.is_colliding():
 		if bullet_sight.get_collider(0).is_in_group("mobs"):
 			bullet_sight.get_collider(0).Take_Damage(mob_damage)
-			print(bullet_sight.get_collider(0))
 			Death()
 		else:
 			Death()
@@ -63,5 +62,4 @@ func Within_Sight_Area(parent:Node,body:Node):
 		if  body.is_on_floor() || body.is_on_wall():
 			Death()
 func Death():
-	print( name + " has died")
 	queue_free()

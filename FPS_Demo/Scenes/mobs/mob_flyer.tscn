@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cxsq5gt857et0"]
+[gd_scene load_steps=6 format=3 uid="uid://cxsq5gt857et0"]
 
 [ext_resource type="PackedScene" uid="uid://3nt0bu8ihidt" path="res://Scenes/mobs/mob_base.tscn" id="1_g70ai"]
 [ext_resource type="Script" path="res://Scripts/Mobs/Mob_Flyer.gd" id="2_iusbu"]
@@ -7,12 +7,13 @@
 [sub_resource type="ViewportTexture" id="ViewportTexture_2l7ko"]
 viewport_path = NodePath("Sprite3D/SubViewport")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_547xe"]
+radius = 1.0
+
 [node name="Mob_Flyer" instance=ExtResource("1_g70ai")]
 script = ExtResource("2_iusbu")
-minGroundDist = 20.0
-life = 1.0
-mob_damage = 1.0
-dmgCtrl = 1.0
+max_GroundDist = 10.0
+SPEED = 10.0
 
 [node name="MeshInstance3D" parent="." index="2"]
 surface_material_override/0 = ExtResource("3_4k2ys")
@@ -20,5 +21,11 @@ surface_material_override/0 = ExtResource("3_4k2ys")
 [node name="Sprite3D" parent="." index="4"]
 texture = SubResource("ViewportTexture_2l7ko")
 
-[node name="RayGround" type="RayCast3D" parent="." index="6"]
-target_position = Vector3(0, -50, 0)
+[node name="Mob_Sight" parent="." index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mob_Sight" index="0"]
+shape = SubResource("SphereShape3D_547xe")
+
+[node name="RayGround" type="RayCast3D" parent="." index="7"]
+target_position = Vector3(0, -25, 0)

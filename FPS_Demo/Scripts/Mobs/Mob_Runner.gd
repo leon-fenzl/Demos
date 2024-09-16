@@ -36,3 +36,8 @@ func Mob_Attack():
 	CalculateDistanceToPlayer()
 	#if distanceToPlayer.length() <= minAtkDistance:
 		#player.Take_Damage(mob_damage)
+func _on_mob_sight_body_entered(body):
+	if body.is_in_group("player"):
+		print("hi")
+		body.Take_Damage(mob_damage)
+	else:return

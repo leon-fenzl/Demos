@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbpu8k6t64ulp"]
+
+[ext_resource type="PackedScene" uid="uid://dbgj7o6ptryrg" path="res://Scenes/Game Scenes/game_manager.tscn" id="1_a77rb"]
+[ext_resource type="Script" path="res://Scripts/Game/GM_Level_One.gd" id="2_fb3pe"]
+
+[node name="GM_Level_One" instance=ExtResource("1_a77rb")]
+script = ExtResource("2_fb3pe")
+startTimer = 0.0

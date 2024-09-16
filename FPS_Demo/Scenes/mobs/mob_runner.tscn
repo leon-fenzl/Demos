@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3i1do3wi2w1c"]
+[gd_scene load_steps=6 format=3 uid="uid://b3i1do3wi2w1c"]
 
 [ext_resource type="PackedScene" uid="uid://3nt0bu8ihidt" path="res://Scenes/mobs/mob_base.tscn" id="1_a0lhx"]
 [ext_resource type="Script" path="res://Scripts/Mobs/Mob_Runner.gd" id="2_pu3al"]
@@ -7,12 +7,11 @@
 [sub_resource type="ViewportTexture" id="ViewportTexture_eept6"]
 viewport_path = NodePath("Sprite3D/SubViewport")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_jlxn3"]
+radius = 1.0
+
 [node name="Mob_Runner" instance=ExtResource("1_a0lhx")]
 script = ExtResource("2_pu3al")
-life = 1.0
-mob_damage = 1.0
-dmgCtrl = 1.0
-SPEED = 50.0
 
 [node name="Loc_Timer" type="Timer" parent="." index="0"]
 autostart = true
@@ -23,4 +22,15 @@ surface_material_override/0 = ExtResource("3_iso3y")
 [node name="Sprite3D" parent="." index="5"]
 texture = SubResource("ViewportTexture_eept6")
 
+[node name="Shape_Sight" parent="." index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+
+[node name="Mob_Sight" parent="." index="7"]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mob_Sight" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+shape = SubResource("SphereShape3D_jlxn3")
+
 [connection signal="timeout" from="Loc_Timer" to="." method="_on_loc_timer_timeout"]
+[connection signal="body_entered" from="Mob_Sight" to="." method="_on_mob_sight_body_entered"]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://oaf6hn42yunl"]
+
+[ext_resource type="Script" path="res://Scripts/Game/Base_Collectable.gd" id="1_68cw3"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_tglf7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3marb"]
+
+[node name="Base_Collectable" type="Area3D"]
+collision_layer = 32
+collision_mask = 2
+script = ExtResource("1_68cw3")
+targetMesh = SubResource("BoxMesh_tglf7")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_3marb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

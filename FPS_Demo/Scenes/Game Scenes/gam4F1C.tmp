@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cf7q8pdri77u8"]
+[gd_scene load_steps=14 format=3 uid="uid://cf7q8pdri77u8"]
 
 [ext_resource type="PackedScene" uid="uid://dej4o3vx7hu0d" path="res://Scenes/Game Scenes/game_menus.tscn" id="1_2kv4n"]
 [ext_resource type="PackedScene" uid="uid://dbgj7o6ptryrg" path="res://Scenes/game_manager.tscn" id="1_aej4d"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cxsq5gt857et0" path="res://Scenes/mobs/mob_flyer.tscn" id="3_vce8g"]
 [ext_resource type="Script" path="res://Scripts/NavBakeRecall.gd" id="6_n2tgn"]
 [ext_resource type="Material" uid="uid://c6wrh487t0356" path="res://Materials/Mat_Ground.tres" id="7_f21mg"]
+[ext_resource type="PackedScene" uid="uid://oaf6hn42yunl" path="res://Scenes/Game Scenes/base_collectable.tscn" id="8_vdvur"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_p2oj2"]
 vertices = PackedVector3Array(24, 0.5, 1, 1, 0.5, 24, 1.25, 0.5, 24.5, 24.5, 0.5, 24.5, 24.5, 0.5, 1.25, -23.75, 0.5, -0.75, -23.75, 0.5, 1, -0.75, 0.5, 24, 24, 0.5, 1, 24, 0.5, -0.75, 0.75, 0.5, -23.75, -23.75, 0.5, 1, -24.5, 0.5, 1.25, -24.5, 0.5, 24.5, -1, 0.5, 24.5, -0.75, 0.5, 24, 0.75, 0.5, -23.75, -0.75, 0.5, -23.75, -23.75, 0.5, -0.75, 24, 0.5, -0.75, 24.5, 0.5, -1, 24.5, 0.5, -24.5, 1.25, 0.5, -24.5, 0.75, 0.5, -23.75, -24.5, 0.5, -24.5, -24.5, 0.5, -1, -23.75, 0.5, -0.75, -0.75, 0.5, -23.75, -1, 0.5, -24.5, -0.75, 0.5, 24, 1, 0.5, 24, 24, 0.5, 1)
@@ -32,7 +33,7 @@ mobs_resources = Array[PackedScene]([ExtResource("2_5nje0"), ExtResource("3_vce8
 mobSpawnMarker = NodePath("SpawnerMarker2")
 
 [node name="SpawnerMarker" parent="game manager" instance=ExtResource("2_7quk8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 20.0287)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 20.029)
 
 [node name="SpawnerMarker2" parent="game manager" instance=ExtResource("2_7quk8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, 1.5)
@@ -120,5 +121,8 @@ shape = SubResource("BoxShape3D_o3cx5")
 
 [node name="Timer" type="Timer" parent="NavigationRegion3D"]
 script = ExtResource("6_n2tgn")
+
+[node name="Base_Collectable" parent="." instance=ExtResource("8_vdvur")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
 [connection signal="timeout" from="NavigationRegion3D/Timer" to="NavigationRegion3D/Timer" method="_on_timeout"]

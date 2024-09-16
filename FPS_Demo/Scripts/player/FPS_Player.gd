@@ -26,7 +26,6 @@ class_name Player
 #
 @onready var col : KinematicCollision3D
 func _ready():
-	$HUD.Register_Life(life)
 	menus = get_tree().get_first_node_in_group("menus")
 func _physics_process(delta):
 	Custom_Gravity(delta)
@@ -48,7 +47,7 @@ func Jump(DELTA:float):
 			jumpVector -= transform.basis.y * jumpForce * DELTA
 	if Input.is_action_just_released("jump") and !is_on_floor():
 		jumpVector -= transform.basis.y * jumpForce * DELTA
-	if is_on_floor() && jumpVector != -get_floor_normal() :
+	if is_on_floor() && jumpVector != -get_floor_normal():
 		jumpVector = -get_floor_normal() * DELTA
 func GetCollisions():
 	for i in get_slide_collision_count():
@@ -61,10 +60,11 @@ func PushRigids():
 			col.get_collider().apply_central_impulse(-col.get_normal()*(col.get_collider().mass))
 func Take_Damage(dmg:=0.0):
 	life -= dmg * dmg_ctrl
-	$HUD.Register_Life(life)
+	#Utilities.Set_Lifebar(PlayerHud.lifeBar,life)
 	if life <= 0.5:
 		Death()
 func Death():
 	menus.Menu_Restart()
+	queue_free()
 func _on_sight_body_entered(body):
 	pass
